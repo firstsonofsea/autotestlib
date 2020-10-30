@@ -1,0 +1,18 @@
+#include <iostream>
+
+using namespace std;
+
+
+int main() {
+	int K, N;
+	cin >> K;
+	N = K;
+	while (K != 0)
+	{
+		cin >> K;
+		if (K < N && K != 0) { N = K; }
+	}
+	cout << N << endl;
+	system("pause");
+	return 0;
+}
