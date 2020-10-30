@@ -26,8 +26,9 @@ class Runner(object):
         file = open(file_name, 'w')
         file.write(self.file)
         file.close()
-        compile_file = subprocess.run(['bin\mingw-get.exe', file_name],
-                                      stdout=subprocess.PIPE)
+        compile_file = subprocess.run(['g++', file_name, '-o', file_name_exe],
+                                      stdout=subprocess.PIPE,
+                                      stderr=subprocess.PIPE)
         if compile_file.returncode == 0:
             result_func['status'] = 'OK'
             for i in range(len(self.input_str)):
@@ -37,19 +38,21 @@ class Runner(object):
                                         stderr=subprocess.PIPE,
                                         input=self.input_str[i])
                 if result.returncode == 0:
-                    print(result.stdout.strip())
-                    if result.stdout.strip() == self.output[i]:
+                    if result.stdout.strip()[:-44] == self.output[i]:
                         result_func['tests'].append('OK')
                     else:
+
                         result_func['tests'].append('ERROR')
                 else:
-                    result_func['tests'].append(result.stdout.decode('utf-8'))
+                    result_func['status'] = 'ERROR'
+                    result_func['tests'].append(result.stderr.strip())
                     break
         else:
             result_func['status'] = 'ERROR'
-            result_func['tests'].append(compile_file.stderr)
+            result_func['tests'].append(compile_file.stderr.strip())
         os.remove(file_name)
-        os.remove(file_name_exe)
+        if os.path.exists(file_name_exe):
+            os.remove(file_name_exe)
         return result_func
 
     def run_python(self):
