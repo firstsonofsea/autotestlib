@@ -38,7 +38,7 @@ class Runner(object):
                                         stderr=subprocess.PIPE,
                                         input=self.input_str[i])
                 if result.returncode == 0:
-                    if result.stdout.strip()[:-44] == self.output[i]:
+                    if result.stdout.strip() == self.output[i]:
                         result_func['tests'].append('OK')
                     else:
 
@@ -47,12 +47,11 @@ class Runner(object):
                     result_func['status'] = 'ERROR'
                     result_func['tests'].append(result.stderr.strip())
                     break
+            os.remove(file_name_exe)
         else:
             result_func['status'] = 'ERROR'
             result_func['tests'].append(compile_file.stderr.strip())
         os.remove(file_name)
-        if os.path.exists(file_name_exe):
-            os.remove(file_name_exe)
         return result_func
 
     def run_python(self):

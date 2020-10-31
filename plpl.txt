@@ -13,6 +13,5 @@ int main() {
 		if (K < N && K != 0) { N = K; }
 	}
 	cout << N << endl;
-	system("pause");
 	return 0;
 }
