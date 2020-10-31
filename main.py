@@ -4,16 +4,18 @@ import os
 
 class Runner(object):
 
-    def __init__(self, code, lang, username, output, input_str, type_input):
+    def __init__(self, code, lang, username, output, input_str, type_input, type_run):
         self.code = code
         self.lang = lang
         self.username = username
         self.CURRENT_LANG = ['Python', 'C++', 'PASCAL']
         self.CURRENT_TYPE_INPUT = ['FILE', 'STRING']
+        self.CURRENT_TYPE_RUN = ['TEST','ONLINE']
         self.CURRENT_PATH = os.getcwd()
         self.output = output
         self.input_str = input_str
         self.type_input = type_input
+        self.type_run = type_run
 
     def create_main_file(self, file_name):
         file = open(file_name, 'w')
@@ -67,7 +69,10 @@ class Runner(object):
                                             stderr=subprocess.PIPE,
                                             input=self.input_str[i])
                 if result.returncode == 0:
-                    self.check_result(i, result, result_func)
+                    if self.CURRENT_TYPE_RUN[0] == self.type_run:
+                        self.check_result(i, result, result_func)
+                    elif self.CURRENT_TYPE_RUN[1] == self.type_run:
+                        result_func.appent(result.stdout.strip())
                 else:
                     result_func['status'] = 'ERROR'
                     result_func['tests'].append(result.stderr.strip())
@@ -99,8 +104,10 @@ class Runner(object):
                                         input=self.input_str[i])
             if result.returncode == 0:
                 result_func['status'] = 'OK'
-                if result.stdout.strip() == self.output[i]:
+                if self.CURRENT_TYPE_RUN[0] == self.type_run:
                     self.check_result(i, result, result_func)
+                elif self.CURRENT_TYPE_RUN[1] == self.type_run:
+                    result_func.appent(result.stdout.strip())
             else:
                 result_func['status'] = "ERROR"
                 result_func['tests'].append(result.stderr)
@@ -133,7 +140,10 @@ class Runner(object):
                                             stderr=subprocess.PIPE,
                                             input=self.input_str[i])
                 if result.returncode == 0:
-                    self.check_result(i, result, result_func)
+                    if self.CURRENT_TYPE_RUN[0] == self.type_run:
+                        self.check_result(i, result, result_func)
+                    elif self.CURRENT_TYPE_RUN[1] == self.type_run:
+                        result_func.appent(result.stdout.strip())
                 else:
                     result_func['status'] = 'ERROR'
                     result_func['tests'].append(result.stderr.strip())
