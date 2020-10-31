@@ -4,8 +4,8 @@ import os
 
 class Runner(object):
 
-    def __init__(self, file, lang, username, output, input_str):
-        self.file = file
+    def __init__(self, code, lang, username, output, input_str):
+        self.code = code
         self.lang = lang
         self.username = username
         self.CURRENT_LANG = ['Python', 'C++']
@@ -24,7 +24,7 @@ class Runner(object):
         file_name = self.username + r'.cpp'
         file_name_exe = self.username + r'.exe'
         file = open(file_name, 'w')
-        file.write(self.file)
+        file.write(self.code)
         file.close()
         compile_file = subprocess.run(['g++', file_name, '-o', file_name_exe],
                                       stdout=subprocess.PIPE,
@@ -58,7 +58,7 @@ class Runner(object):
         result_func = {'status': None, 'tests': []}
         file_name = self.username + r'.py'
         file = open(file_name, 'w')
-        file.write(self.file)
+        file.write(self.code)
         file.close()
         for i in range(len(self.input_str)):
             result = subprocess.run(['python', file_name],
