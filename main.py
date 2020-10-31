@@ -72,7 +72,7 @@ class Runner(object):
                     if self.CURRENT_TYPE_RUN[0] == self.type_run:
                         self.check_result(i, result, result_func)
                     elif self.CURRENT_TYPE_RUN[1] == self.type_run:
-                        result_func.appent(result.stdout.strip())
+                        result_func['tests'].append(result.stdout.strip())
                 else:
                     result_func['status'] = 'ERROR'
                     result_func['tests'].append(result.stderr.strip())
@@ -107,7 +107,7 @@ class Runner(object):
                 if self.CURRENT_TYPE_RUN[0] == self.type_run:
                     self.check_result(i, result, result_func)
                 elif self.CURRENT_TYPE_RUN[1] == self.type_run:
-                    result_func.appent(result.stdout.strip())
+                    result_func['tests'].append(result.stdout.strip())
             else:
                 result_func['status'] = "ERROR"
                 result_func['tests'].append(result.stderr)
@@ -143,7 +143,7 @@ class Runner(object):
                     if self.CURRENT_TYPE_RUN[0] == self.type_run:
                         self.check_result(i, result, result_func)
                     elif self.CURRENT_TYPE_RUN[1] == self.type_run:
-                        result_func.appent(result.stdout.strip())
+                        result_func['tests'].append(result.stdout.strip())
                 else:
                     result_func['status'] = 'ERROR'
                     result_func['tests'].append(result.stderr.strip())
