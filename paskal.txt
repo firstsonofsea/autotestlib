@@ -1,0 +1,6 @@
+var
+        z,y: integer;
+begin
+readln(z, y);
+write(z+y);
+end.
